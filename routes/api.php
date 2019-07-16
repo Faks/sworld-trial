@@ -18,12 +18,15 @@ Route::group(
     static function () {
         Route::group(
             [
-                'prefix' => '{token}',
+                'prefix'    => '{token}',
+                'namespace' => 'Api',
             ],
             static function () {
-                Route::get('documents/list', 'Api\AuthController@index');
-                Route::post('documents/store', 'Api\AuthController@store');
-                Route::delete('documents/{document}', 'Api\AuthApi@test');
+                Route::get('documents/list', 'AuthController@index');
+                Route::get('documents/{document}/show', 'AuthController@show');
+                Route::post('documents/{document}/store', 'AuthController@store');
+                Route::put('documents/{document}/update', 'AuthController@update');
+                Route::delete('documents/{document}', 'AuthController@destroy');
             }
         );
     }

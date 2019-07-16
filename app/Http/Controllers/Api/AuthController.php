@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Documents;
 use App\User;
 use Exception;
+use File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use function response;
 
-class AuthController extends Controller
+class AuthController
 {
     /**
      * @param mixed $getToken
@@ -18,20 +19,7 @@ class AuthController extends Controller
     public function index($getToken) : ?JsonResponse
     {
         if ($this->tokenCheck($getToken)->getData(true)['data'] === true) {
-            return response()->json(User::all());
-        }
-        
-        return response()->json(['invalid token'], 403);
-    }
-    
-    /**
-     * @param mixed $getToken
-     * @return JsonResponse|null
-     */
-    public function create($getToken) : ?JsonResponse
-    {
-        if ($this->tokenCheck($getToken)->getData(true)['data'] === true) {
-            return response()->json('');
+            return response()->json(Documents::all());
         }
         
         return response()->json(['invalid token'], 403);
@@ -59,49 +47,47 @@ class AuthController extends Controller
     public function show($getToken, $id) : ?JsonResponse
     {
         if ($this->tokenCheck($getToken)->getData(true)['data'] === true) {
-            return response()->json('');
+            return response()->json(Documents::query()->find($id));
         }
         
         return response()->json(['invalid token'], 403);
     }
     
     /**
-     * @param mixed $getToken
-     * @param int   $id
+     * @param mixed   $getToken
+     * @param int     $id
+     * @param Request $request
      * @return JsonResponse|null
      */
-    public function edit($getToken, $id) : ?JsonResponse
+    public function update($getToken, $id, Request $request) : ?JsonResponse
     {
         if ($this->tokenCheck($getToken)->getData(true)['data'] === true) {
-            return response()->json('');
+            $document = Documents::query()->find($id);
+            $document->update(['file_name' => $request->get('file_name')]);
+            
+            return response()->json(['data' => true]);
         }
         
         return response()->json(['invalid token'], 403);
     }
     
     /**
-     * @param mixed $getToken
-     * @param int   $id
+     * @param mixed   $getToken
+     * @param int     $id
+     * @param Request $request
      * @return JsonResponse|null
+     * @throws Exception
      */
-    public function update($getToken, $id) : ?JsonResponse
+    public function destroy($getToken, $id, Request $request) : ?JsonResponse
     {
         if ($this->tokenCheck($getToken)->getData(true)['data'] === true) {
-            return response()->json('');
-        }
-        
-        return response()->json(['invalid token'], 403);
-    }
-    
-    /**
-     * @param mixed $getToken
-     * @param int   $id
-     * @return JsonResponse|null
-     */
-    public function destroy($getToken, $id) : ?JsonResponse
-    {
-        if ($this->tokenCheck($getToken)->getData(true)['data'] === true) {
-            return response()->json('');
+            $document = Documents::query()->find($id);
+            if (File::exists($request->get('file_name'))) {
+                File::delete($request->get('file_name'));
+            }
+            $document->delete();
+            
+            return response()->json(['data' => true]);
         }
         
         return response()->json(['invalid token'], 403);
