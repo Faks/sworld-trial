@@ -11,7 +11,20 @@
 |
 */
 
-
-Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], static function () {
-    Route::get('auth/tokens', 'Api\AuthApi@test');
-});
+Route::group(
+    [
+        'prefix' => 'v1',
+    ],
+    static function () {
+        Route::group(
+            [
+                'prefix' => '{token}',
+            ],
+            static function () {
+                Route::get('documents/list', 'Api\AuthController@index');
+                Route::post('documents/store', 'Api\AuthController@store');
+                Route::delete('documents/{document}', 'Api\AuthApi@test');
+            }
+        );
+    }
+);
