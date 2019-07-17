@@ -3,7 +3,9 @@
         <div class="row">
             <div v-for="list in getList" class="col-sm-4"
                  style="margin-bottom: 25px;">
-                <div class="card">
+                <div class="card" type="button"
+                     data-toggle="modal"
+                     v-bind:data-target="'#Modal'+ list.id +''">
                     <img src="https://placeimg.com/285/200/nature" class="card-img-top" alt="...">
                     
                     <div class="card-body">
@@ -13,15 +15,6 @@
                     <div class="card-body">
                         <a v-bind:href="''+ list.file_path +'/' + list.file_name +''" class="card-link">Download</a>
                     </div>
-                    
-                    <!-- Button trigger modal -->
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        data-toggle="modal"
-                        v-bind:data-target="'#Modal'+ list.id +''">
-                        Launch demo modal
-                    </button>
                 
                 </div>
             </div>
