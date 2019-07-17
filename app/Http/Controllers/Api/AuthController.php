@@ -28,6 +28,21 @@ class AuthController
     }
     
     /**
+     * @param mixed $getToken
+     * @return JsonResponse
+     */
+    public function tokenCheck($getToken) : JsonResponse
+    {
+        try {
+            User::query()->where('api_token', $getToken)->firstOrFail();
+            
+            return response()->json(['data' => true]);
+        } catch (Exception $exception) {
+            return response()->json(['data' => $exception->getMessage()]);
+        }
+    }
+    
+    /**
      * @param mixed   $getToken
      * @param Request $request
      * @return JsonResponse|null
@@ -62,9 +77,9 @@ class AuthController
     }
     
     /**
-     * @param mixed   $getToken
-     * @param \App\Documents     $documents
-     * @param Request $request
+     * @param mixed          $getToken
+     * @param \App\Documents $documents
+     * @param Request        $request
      * @return JsonResponse|null
      * @throws Exception
      */
@@ -80,20 +95,5 @@ class AuthController
         }
         
         return response()->json(['invalid token'], 403);
-    }
-    
-    /**
-     * @param mixed $getToken
-     * @return JsonResponse
-     */
-    public function tokenCheck($getToken) : JsonResponse
-    {
-        try {
-            User::query()->where('api_token', $getToken)->firstOrFail();
-            
-            return response()->json(['data' => true]);
-        } catch (Exception $exception) {
-            return response()->json(['data' => $exception->getMessage()]);
-        }
     }
 }

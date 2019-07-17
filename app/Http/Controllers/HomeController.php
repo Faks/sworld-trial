@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Support\Facades\Storage;
-use function config;
 
 class HomeController extends Controller
 {
