@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Support\Facades\Storage;
+use function config;
 
 class HomeController extends Controller
 {
@@ -16,13 +17,13 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
-
+    
     /**
      * Show the application dashboard.
      *
      * @return Renderable
      */
-    public function index(): Renderable
+    public function index() : Renderable
     {
         return view('home');
     }

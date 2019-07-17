@@ -17,6 +17,9 @@ class CreateDocumentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('file_path');
             $table->string('file_name');
+            $table->string('file_extension');
+            $table->string('file_mime_type');
+            $table->string('file_size');
             $table->timestamps();
         });
     }

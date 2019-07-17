@@ -24,9 +24,9 @@ Route::group(
             static function () {
                 Route::get('documents/list', 'AuthController@index');
                 Route::get('documents/{document}/show', 'AuthController@show');
-                Route::post('documents/{document}/store', 'AuthController@store');
+                Route::post('documents/store', 'AuthController@store');
                 Route::put('documents/{document}/update', 'AuthController@update');
-                Route::delete('documents/{document}', 'AuthController@destroy');
+                Route::delete('documents/{document}/destroy', 'AuthController@destroy');
             }
         );
     }

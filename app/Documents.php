@@ -12,7 +12,10 @@ class Documents extends Model
      * @var array
      */
     protected $fillable = [
-        'file_path',
         'file_name',
+        'file_extension',
+        'file_mime_type',
+        'file_size',
+        'file_path',
     ];
 }
