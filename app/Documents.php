@@ -17,5 +17,6 @@ class Documents extends Model
         'file_mime_type',
         'file_size',
         'file_path',
+        'created_by',
     ];
 }

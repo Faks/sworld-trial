@@ -20,6 +20,8 @@ class CreateDocumentsTable extends Migration
             $table->string('file_extension');
             $table->string('file_mime_type');
             $table->string('file_size');
+            $table->unsignedBigInteger('created_by', false)->nullable();
+            $table->foreign('created_by')->references('id')->on('users');
             $table->timestamps();
         });
     }

@@ -20,6 +20,12 @@
                     add new document
                 </button>
             </div>
+
+            <ul v-if="errors !== null" class="list-group list-group-flush">
+                <li class="list-group-item list-group-item-danger">
+                    {{ errors }}
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -29,13 +35,17 @@ export default {
     props: ["api_token"],
     data() {
         return {
-            pdf: ""
+            form: {
+                pdf: ""
+            },
+            errors: null,
+            success: false
         };
     },
     methods: {
         handleFormSubmit() {
             let formData = new FormData();
-            formData.append("pdf", this.pdf);
+            formData.append("pdf", this.form.pdf);
 
             axios
                 .post(
@@ -47,18 +57,18 @@ export default {
                         }
                     }
                 )
-                .then(function(data) {
-                    console.log(data.data);
+                .then(response => {
+                    this.errors = false;
+                    this.success = response.data.success;
                     location.reload();
                 })
-                .catch(function() {
-                    console.log("FAILURE!!");
+                .catch(error => {
+                    this.errors = error.response.data.errors.pdf[0];
+                    this.success = false;
                 });
         },
-
         onChangeFileUpload() {
-            this.pdf = this.$refs.pdf.files[0];
-            console.log(this.pdf);
+            this.form.pdf = this.$refs.pdf.files[0];
         }
     }
 };
